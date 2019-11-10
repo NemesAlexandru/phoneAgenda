@@ -12,12 +12,12 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         CreateItemRequest request = new CreateItemRequest();
-        request.setNumber("0788877655");
-        request.setFirstName("Mircea");
-        request.setLastName("Dan");
+//        request.setNumber("0788877655");
+//        request.setFirstName("Mircea");
+//        request.setLastName("Dan");
 
         PhoneAgendaRepository phoneAgendaRepository = new PhoneAgendaRepository();
-        // phoneAgendaRepository.createItem(request);
+         // phoneAgendaRepository.createItem(request);
         //  phoneAgendaRepository.updateItem(3, "0722222222");
         //  phoneAgendaRepository.deleteItem(8);
         List<AgendaItem> agendaItems = phoneAgendaRepository.getAgendaItems();
