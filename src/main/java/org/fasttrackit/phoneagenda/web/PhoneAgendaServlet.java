@@ -1,6 +1,7 @@
 package org.fasttrackit.phoneagenda.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.fasttrackit.phoneagenda.config.ObjectMapperConfiguration;
 import org.fasttrackit.phoneagenda.domain.AgendaItem;
 import org.fasttrackit.phoneagenda.service.PhoneAgendaService;
 import org.fasttrackit.phoneagenda.transfer.CreateItemRequest;
@@ -24,8 +25,7 @@ public class PhoneAgendaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        CreateItemRequest request = objectMapper.readValue(req.getReader(), CreateItemRequest.class);
+        CreateItemRequest request = ObjectMapperConfiguration.getObjectMapper().readValue(req.getReader(), CreateItemRequest.class);
 
         try {
             phoneAgendaService.createItem(request);
@@ -53,8 +53,7 @@ public class PhoneAgendaServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        UpdateItemRequest request = objectMapper.readValue(req.getReader(), UpdateItemRequest.class);
+        UpdateItemRequest request = ObjectMapperConfiguration.getObjectMapper().readValue(req.getReader(), UpdateItemRequest.class);
 
         try {
             phoneAgendaService.updateItem(Long.parseLong(id), request);
@@ -70,8 +69,7 @@ public class PhoneAgendaServlet extends HttpServlet {
         try {
             List<AgendaItem> agendaItems = phoneAgendaService.getAgendaItems();
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            String response = objectMapper.writeValueAsString(agendaItems);
+            String response = ObjectMapperConfiguration.getObjectMapper().writeValueAsString(agendaItems);
 
             resp.getWriter().print(response);
 
