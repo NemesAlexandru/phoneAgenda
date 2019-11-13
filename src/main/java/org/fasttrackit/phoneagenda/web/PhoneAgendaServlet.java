@@ -5,6 +5,7 @@ import org.fasttrackit.phoneagenda.config.ObjectMapperConfiguration;
 import org.fasttrackit.phoneagenda.domain.AgendaItem;
 import org.fasttrackit.phoneagenda.service.PhoneAgendaService;
 import org.fasttrackit.phoneagenda.transfer.CreateItemRequest;
+import org.fasttrackit.phoneagenda.transfer.FilterRequest;
 import org.fasttrackit.phoneagenda.transfer.UpdateItemRequest;
 
 import javax.servlet.ServletException;
@@ -66,8 +67,9 @@ public class PhoneAgendaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        FilterRequest request = ObjectMapperConfiguration.getObjectMapper().readValue(req.getReader(), FilterRequest.class);
         try {
-            List<AgendaItem> agendaItems = phoneAgendaService.getAgendaItems();
+            List<AgendaItem> agendaItems = phoneAgendaService.getAgendaItems(request);
 
             String response = ObjectMapperConfiguration.getObjectMapper().writeValueAsString(agendaItems);
 
@@ -78,4 +80,6 @@ public class PhoneAgendaServlet extends HttpServlet {
         }
 
     }
+
+
 }

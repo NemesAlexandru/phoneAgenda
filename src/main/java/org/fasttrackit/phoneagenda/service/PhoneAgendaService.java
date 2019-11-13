@@ -3,6 +3,7 @@ package org.fasttrackit.phoneagenda.service;
 import org.fasttrackit.phoneagenda.domain.AgendaItem;
 import org.fasttrackit.phoneagenda.persistance.PhoneAgendaRepository;
 import org.fasttrackit.phoneagenda.transfer.CreateItemRequest;
+import org.fasttrackit.phoneagenda.transfer.FilterRequest;
 import org.fasttrackit.phoneagenda.transfer.UpdateItemRequest;
 
 import java.io.IOException;
@@ -27,8 +28,9 @@ public void deleteItem(long id) throws SQLException, IOException, ClassNotFoundE
     phoneAgendaRepository.deleteItem(id);
 }
 
-public List<AgendaItem> getAgendaItems() throws SQLException, IOException, ClassNotFoundException {
-    System.out.println("Retrieving phone-agenda-items...");
-    return phoneAgendaRepository.getAgendaItems();
-}
+    public List<AgendaItem> getAgendaItems(FilterRequest request) throws SQLException, IOException, ClassNotFoundException {
+        System.out.println("Retrieving phone-agenda-items...");
+        return phoneAgendaRepository.getAgendaItems(request.getFirstName());
+    }
+
 }

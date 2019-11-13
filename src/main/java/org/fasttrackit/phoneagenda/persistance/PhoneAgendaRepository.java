@@ -2,6 +2,7 @@ package org.fasttrackit.phoneagenda.persistance;
 
 import org.fasttrackit.phoneagenda.domain.AgendaItem;
 import org.fasttrackit.phoneagenda.transfer.CreateItemRequest;
+import org.fasttrackit.phoneagenda.transfer.FilterRequest;
 
 import java.io.IOException;
 import java.sql.*;
@@ -47,26 +48,29 @@ public class PhoneAgendaRepository {
         }
     }
 
-    public List<AgendaItem> getAgendaItems() throws SQLException, IOException, ClassNotFoundException {
-        String sql = "SELECT id, phone_number, first_name, last_name FROM agenda_item";
+    public List<AgendaItem> getAgendaItems(String firstName) throws SQLException, IOException, ClassNotFoundException {
 
+        String sql = "SELECT id, phone_number, first_name, last_name FROM agenda_item WHERE first_name=?";
         List<AgendaItem> agendaItems = new ArrayList<>();
 
         try (Connection connection = DatabaseConfiguration.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)){
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
-           while (resultSet.next()) {
-               AgendaItem agendaItem = new AgendaItem();
-               agendaItem.setId(resultSet.getLong("id"));
-               agendaItem.setFirstName(resultSet.getString("first_name"));
-               agendaItem.setLastName(resultSet.getString("last_name"));
-               agendaItem.setNumber(resultSet.getString("phone_number"));
+            preparedStatement.setString(1, firstName);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-               agendaItems.add(agendaItem);
-           }
+            while (resultSet.next()) {
+                AgendaItem agendaItem = new AgendaItem();
+                agendaItem.setId(resultSet.getLong("id"));
+                agendaItem.setFirstName(resultSet.getString("first_name"));
+                agendaItem.setLastName(resultSet.getString("last_name"));
+                agendaItem.setNumber(resultSet.getString("phone_number"));
+                agendaItems.add(agendaItem);
+            }
         }
 
         return agendaItems;
+        }
     }
-}
+
