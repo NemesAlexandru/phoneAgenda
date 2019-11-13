@@ -48,15 +48,16 @@ public class PhoneAgendaRepository {
         }
     }
 
-    public List<AgendaItem> getAgendaItems(String firstName) throws SQLException, IOException, ClassNotFoundException {
+    public List<AgendaItem> getAgendaItems(String firstName, String lastName) throws SQLException, IOException, ClassNotFoundException {
 
-        String sql = "SELECT id, phone_number, first_name, last_name FROM agenda_item WHERE first_name=?";
+        String sql = "SELECT id, phone_number, first_name, last_name FROM agenda_item WHERE first_name=? OR last_name=?";
         List<AgendaItem> agendaItems = new ArrayList<>();
 
         try (Connection connection = DatabaseConfiguration.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
             preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
             preparedStatement.executeQuery();
             ResultSet resultSet = preparedStatement.executeQuery();
 

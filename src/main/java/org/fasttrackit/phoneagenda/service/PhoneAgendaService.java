@@ -30,7 +30,7 @@ public void deleteItem(long id) throws SQLException, IOException, ClassNotFoundE
 
     public List<AgendaItem> getAgendaItems(FilterRequest request) throws SQLException, IOException, ClassNotFoundException {
         System.out.println("Retrieving phone-agenda-items...");
-        return phoneAgendaRepository.getAgendaItems(request.getFirstName());
+        return phoneAgendaRepository.getAgendaItems(request.getFirstName(), request.getLastName());
     }
 
 }
