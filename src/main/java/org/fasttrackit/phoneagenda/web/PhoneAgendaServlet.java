@@ -1,10 +1,10 @@
 package org.fasttrackit.phoneagenda.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fasttrackit.phoneagenda.config.ObjectMapperConfiguration;
 import org.fasttrackit.phoneagenda.domain.AgendaItem;
 import org.fasttrackit.phoneagenda.service.PhoneAgendaService;
 import org.fasttrackit.phoneagenda.transfer.CreateItemRequest;
+import org.fasttrackit.phoneagenda.transfer.DeleteRequest;
 import org.fasttrackit.phoneagenda.transfer.FilterRequest;
 import org.fasttrackit.phoneagenda.transfer.UpdateItemRequest;
 
@@ -39,12 +39,12 @@ public class PhoneAgendaServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String id = req.getParameter("id");
+        //String id = req.getParameter("id");
 
-        //Long wrapper class for primitive data type long
-
+        DeleteRequest request = ObjectMapperConfiguration.getObjectMapper().readValue(req.getReader(), DeleteRequest.class);
         try {
-            phoneAgendaService.deleteItem(Long.parseLong(id));
+            List<AgendaItem> deleteItems = phoneAgendaService.deleteItem(request);
+
         } catch (SQLException | ClassNotFoundException e) {
             resp.sendError(500, "Internal Server Error: " + e.getMessage());
         }

@@ -13,9 +13,11 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
 
-//        FilterRequest request = new FilterRequest();
+//        FilterRequest filterRequest = new FilterRequest();
+//        filterRequest.setFirstName(null);
+//        filterRequest.setLastName(null);
 //        PhoneAgendaRepository phoneAgendaRepository = new PhoneAgendaRepository();
-//        List<AgendaItem> agendaItems = phoneAgendaRepository.getAgendaItems(request.getFirstName());
-//        System.out.println(agendaItems);
+//        phoneAgendaRepository.getAgendaItems(filterRequest.getFirstName(), filterRequest.getLastName());
+
     }
 }

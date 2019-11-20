@@ -37,22 +37,24 @@ public class PhoneAgendaRepository {
         }
     }
 
-    public void deleteItem(long id) throws SQLException, IOException, ClassNotFoundException {
+
+    public List<AgendaItem> deleteItem(long id) throws SQLException, IOException, ClassNotFoundException {
         String sql = "DELETE FROM agenda_item WHERE id=?";
+        List<AgendaItem> deleteItems = new ArrayList<>();
+        for (int i = 0; i <= deleteItems.size(); i++) {
+            try (Connection connection = DatabaseConfiguration.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-        try (Connection connection = DatabaseConfiguration.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setLong(1, id);
-            preparedStatement.executeUpdate();
+                preparedStatement.setLong(1, id);
+                preparedStatement.executeUpdate();
+            }
         }
+        return deleteItems;
     }
 
     public List<AgendaItem> getAgendaItems(String firstName, String lastName) throws SQLException, IOException, ClassNotFoundException {
-
         String sql = "SELECT id, phone_number, first_name, last_name FROM agenda_item WHERE first_name=? OR last_name=?";
         List<AgendaItem> agendaItems = new ArrayList<>();
-
         try (Connection connection = DatabaseConfiguration.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 
